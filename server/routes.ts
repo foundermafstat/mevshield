@@ -93,10 +93,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Analyze a transaction for potential sandwich attacks
   app.post("/api/analyze", async (req, res) => {
-    const { transactionHash, blockNumber } = req.body;
+    const { transactionHash, blockNumber = 0 } = req.body;
     
-    if (!transactionHash || !blockNumber) {
-      return res.status(400).json({ error: "Transaction hash and block number are required" });
+    if (!transactionHash) {
+      return res.status(400).json({ error: "Venn ID is required" });
     }
     
     try {
