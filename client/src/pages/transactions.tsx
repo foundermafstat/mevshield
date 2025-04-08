@@ -29,11 +29,11 @@ export default function Transactions() {
     return (
       attack.tokenPair.toLowerCase().includes(searchLower) ||
       attack.exchange.toLowerCase().includes(searchLower) ||
-      attack.frontRunTxHash.toLowerCase().includes(searchLower) ||
-      attack.victimTxHash.toLowerCase().includes(searchLower) ||
-      attack.backRunTxHash.toLowerCase().includes(searchLower) ||
-      attack.attackerAddress.toLowerCase().includes(searchLower) ||
-      attack.victimAddress.toLowerCase().includes(searchLower)
+      (attack.frontRunTxHash && attack.frontRunTxHash.toLowerCase().includes(searchLower)) ||
+      (attack.victimTxHash && attack.victimTxHash.toLowerCase().includes(searchLower)) ||
+      (attack.backRunTxHash && attack.backRunTxHash.toLowerCase().includes(searchLower)) ||
+      (attack.attackerAddress && attack.attackerAddress.toLowerCase().includes(searchLower)) ||
+      (attack.victimAddress && attack.victimAddress.toLowerCase().includes(searchLower))
     );
   });
   

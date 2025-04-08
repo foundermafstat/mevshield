@@ -99,8 +99,9 @@ export default function Dashboard() {
         description: data.explanation[0],
         variant: data.isSandwich ? "destructive" : "default",
       });
-      // If successful, refresh attacks data
+      // If successful, refresh attacks data and stats
       queryClient.invalidateQueries({ queryKey: ['/api/attacks'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/stats'] });
     },
     onError: (error: any) => {
       toast({
@@ -127,8 +128,9 @@ export default function Dashboard() {
         description: "Sandwich attack detected with high confidence. Front-running transaction identified.",
         variant: "destructive",
       });
-      // If successful, refresh attacks data
+      // If successful, refresh attacks data and stats
       queryClient.invalidateQueries({ queryKey: ['/api/attacks'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/stats'] });
     },
     onError: (error: any) => {
       toast({
