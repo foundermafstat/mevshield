@@ -150,43 +150,6 @@ export default function Transactions() {
               )}
             </CardContent>
           </Card>
-          
-          {/* Transaction Analysis Form */}
-          <Card className="mt-8 bg-app-darker shadow overflow-hidden border border-gray-700">
-            <CardHeader>
-              <CardTitle className="text-white">Analyze Transaction</CardTitle>
-              <CardDescription>Check if a specific transaction was part of a sandwich attack</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                <div>
-                  <label htmlFor="txHash" className="block text-sm font-medium text-gray-300 mb-1">
-                    Transaction Hash
-                  </label>
-                  <Input 
-                    id="txHash"
-                    placeholder="0x..."
-                    className="w-full bg-app-dark border-gray-700 text-white"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="blockNumber" className="block text-sm font-medium text-gray-300 mb-1">
-                    Block Number (optional)
-                  </label>
-                  <Input 
-                    id="blockNumber"
-                    placeholder="e.g. 14500000"
-                    className="w-full bg-app-dark border-gray-700 text-white"
-                  />
-                </div>
-              </div>
-              <div className="mt-4">
-                <Button className="bg-app-accent hover:bg-blue-600 text-white">
-                  Analyze Transaction
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
         </div>
       </div>
     </main>

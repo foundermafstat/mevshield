@@ -2,13 +2,15 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 import StatsCard from "@/components/stats-card";
 import AttackTable from "@/components/attack-table";
 import TransactionDetail from "@/components/transaction-detail";
 import { queryClient, apiRequest } from "@/lib/queryClient";
-import { addToWatchlist, blockAttacker } from "@/lib/blockchain";
+import { addToWatchlist, blockAttacker, analyzeTransaction } from "@/lib/blockchain";
 import { Attack, Stats } from "@shared/schema";
 import { useToast } from "@/hooks/use-toast";
 
@@ -17,6 +19,7 @@ export default function Dashboard() {
   const [timeFilter, setTimeFilter] = useState("24h");
   const [exchangeFilter, setExchangeFilter] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
+  const [vennId, setVennId] = useState("");
   const { toast } = useToast();
 
   // Fetch stats
@@ -77,6 +80,40 @@ export default function Dashboard() {
 
   const handleCloseDetails = () => {
     setSelectedAttack(null);
+  };
+
+  // Add transaction analysis mutation
+  const analyzeMutation = useMutation({
+    mutationFn: async () => {
+      if (!vennId.trim()) {
+        throw new Error("Please provide a valid Venn ID");
+      }
+      return analyzeTransaction({ 
+        transactionHash: vennId.trim(),
+        blockNumber: 0 // Not needed as per new requirements
+      });
+    },
+    onSuccess: (data) => {
+      toast({
+        title: data.isSandwich ? "Attack Detected!" : "No Attack Detected",
+        description: data.explanation[0],
+        variant: data.isSandwich ? "destructive" : "default",
+      });
+      // If successful, refresh attacks data
+      queryClient.invalidateQueries({ queryKey: ['/api/attacks'] });
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Analysis Failed",
+        description: error.message || "Could not analyze the transaction",
+        variant: "destructive",
+      });
+    }
+  });
+
+  const handleAnalyzeTransaction = (e: React.FormEvent) => {
+    e.preventDefault();
+    analyzeMutation.mutate();
   };
 
   const pageCount = attacksData?.pagination?.total 
@@ -283,6 +320,46 @@ export default function Dashboard() {
               />
             )}
           </div>
+          
+          {/* Analyze Transaction Section */}
+          <Card className="mt-8 bg-app-darker shadow overflow-hidden border border-gray-700 mb-8">
+            <CardHeader>
+              <CardTitle className="text-white">Analyze Transaction</CardTitle>
+              <CardDescription>Check if a specific transaction was part of a sandwich attack</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <form onSubmit={handleAnalyzeTransaction} className="flex items-end space-x-4">
+                <div className="flex-grow">
+                  <label htmlFor="vennId" className="block text-sm font-medium text-gray-300 mb-1">
+                    Venn ID
+                  </label>
+                  <Input 
+                    id="vennId"
+                    placeholder="Enter Venn transaction ID"
+                    className="w-full bg-app-dark border-gray-700 text-white"
+                    value={vennId}
+                    onChange={(e) => setVennId(e.target.value)}
+                    disabled={analyzeMutation.isPending}
+                  />
+                </div>
+                <div>
+                  <Button 
+                    type="submit" 
+                    className="bg-app-accent hover:bg-blue-600 text-white"
+                    disabled={analyzeMutation.isPending}
+                  >
+                    {analyzeMutation.isPending ? "Checking..." : "Check"}
+                  </Button>
+                </div>
+              </form>
+              
+              {analyzeMutation.isError && (
+                <div className="mt-4 text-red-400 text-sm">
+                  {(analyzeMutation.error as Error)?.message || "An error occurred during analysis."}
+                </div>
+              )}
+            </CardContent>
+          </Card>
         </div>
       </div>
     </main>
