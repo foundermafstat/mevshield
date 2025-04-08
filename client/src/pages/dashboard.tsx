@@ -111,9 +111,41 @@ export default function Dashboard() {
     }
   });
 
+  // Add mock attack detection mutation
+  const mockDetectionMutation = useMutation({
+    mutationFn: async () => {
+      // Use a fixed mock transaction hash for demonstration
+      return analyzeTransaction({ 
+        transactionHash: "0x7dd3fa3feb168de26478c423e7e7146db8b6f758687c4c0de24136b92c86e707",
+        blockNumber: 14500000
+      });
+    },
+    onSuccess: (data) => {
+      // Always show an attack detected for mock button
+      toast({
+        title: "Attack Detected!",
+        description: "Sandwich attack detected with high confidence. Front-running transaction identified.",
+        variant: "destructive",
+      });
+      // If successful, refresh attacks data
+      queryClient.invalidateQueries({ queryKey: ['/api/attacks'] });
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Mock Analysis Failed",
+        description: "Could not perform mock analysis",
+        variant: "destructive",
+      });
+    }
+  });
+
   const handleAnalyzeTransaction = (e: React.FormEvent) => {
     e.preventDefault();
     analyzeMutation.mutate();
+  };
+  
+  const handleMockDetection = () => {
+    mockDetectionMutation.mutate();
   };
 
   const pageCount = attacksData?.pagination?.total 
@@ -339,16 +371,24 @@ export default function Dashboard() {
                     className="w-full bg-app-dark border-gray-700 text-white"
                     value={vennId}
                     onChange={(e) => setVennId(e.target.value)}
-                    disabled={analyzeMutation.isPending}
+                    disabled={analyzeMutation.isPending || mockDetectionMutation.isPending}
                   />
                 </div>
                 <div>
                   <Button 
                     type="submit" 
-                    className="bg-app-accent hover:bg-blue-600 text-white"
-                    disabled={analyzeMutation.isPending}
+                    className="bg-app-accent hover:bg-blue-600 text-white mr-2"
+                    disabled={analyzeMutation.isPending || mockDetectionMutation.isPending}
                   >
                     {analyzeMutation.isPending ? "Checking..." : "Check"}
+                  </Button>
+                  <Button 
+                    type="button" 
+                    onClick={handleMockDetection}
+                    className="bg-purple-600 hover:bg-purple-700 text-white"
+                    disabled={analyzeMutation.isPending || mockDetectionMutation.isPending}
+                  >
+                    {mockDetectionMutation.isPending ? "Detecting..." : "Mock"}
                   </Button>
                 </div>
               </form>
@@ -356,6 +396,12 @@ export default function Dashboard() {
               {analyzeMutation.isError && (
                 <div className="mt-4 text-red-400 text-sm">
                   {(analyzeMutation.error as Error)?.message || "An error occurred during analysis."}
+                </div>
+              )}
+              
+              {mockDetectionMutation.isError && (
+                <div className="mt-4 text-red-400 text-sm">
+                  {(mockDetectionMutation.error as Error)?.message || "An error occurred during mock detection."}
                 </div>
               )}
             </CardContent>

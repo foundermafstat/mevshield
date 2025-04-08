@@ -34,6 +34,30 @@ export async function analyzePotentialSandwichAttack(
   //    - Same token pair trading
   // 3. Calculate confidence based on pattern matches
   
+  // Handle our mock transaction specifically - always returns a positive result for demo
+  const mockTxHash = "0x7dd3fa3feb168de26478c423e7e7146db8b6f758687c4c0de24136b92c86e707";
+  if (transactionHash === mockTxHash) {
+    return {
+      isSandwich: true,
+      confidence: 98,
+      details: {
+        frontRunTx: "0x94d3bd8f57f25368de0a12e234f2dd43e8b949d999e348e3c452c69afca1b45e",
+        victimTx: mockTxHash,
+        backRunTx: "0x8acbd2b4b1fd98778563cd7cc5aaa33c9602588645f825c6eae5c963d0827f12",
+        valueExtracted: 7850,
+        priceImpact: 2.87,
+        attacker: "0xae2fc483527b8ef99eb5d9b44875f005ba1fae13"
+      },
+      explanation: [
+        "High confidence sandwich attack detected on ETH/USDC pool",
+        "Front-running transaction executed with high gas price (+20% over market)",
+        "Back-running transaction confirmed from same attacker address",
+        "Estimated value extracted: $7,850 from 2.87% price slippage",
+        "Transaction has all the signatures of a targeted price manipulation"
+      ]
+    };
+  }
+  
   // For demonstration, we'll return an analysis based on the transaction hash
   // In reality, you would connect to blockchain APIs to get real data
   
