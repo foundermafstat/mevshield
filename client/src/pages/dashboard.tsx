@@ -38,6 +38,16 @@ export default function Dashboard() {
     }
   }>({
     queryKey: ['/api/attacks', { limit: 10, offset: (currentPage - 1) * 10, exchange: exchangeFilter === 'all' ? null : exchangeFilter }],
+    select: (data) => {
+      return {
+        ...data,
+        attacks: data.attacks.filter(attack => attack.status !== "No Threat"),
+        pagination: {
+          ...data.pagination,
+          total: data.pagination.total - data.attacks.filter(attack => attack.status === "No Threat").length
+        }
+      };
+    },
   });
 
   // Block attacker mutation

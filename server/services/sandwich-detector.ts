@@ -96,9 +96,10 @@ export async function analyzePotentialSandwichAttack(
         victimTx: transactionHash
       },
       explanation: [
-        "No front-running transaction detected",
-        "No related back-running transaction",
-        "Price movement inconsistent with sandwich pattern"
+        "No threat detected. Transaction appears to be normal.",
+        "No front-running transaction detected.",
+        "No related back-running transaction.",
+        "Price movement inconsistent with sandwich pattern."
       ]
     };
   }

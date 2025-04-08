@@ -129,9 +129,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
           isWatched: false
         });
       } else {
-        // If it's not a sandwich attack, still record it but with "False Positive" status
+        // If it's not a sandwich attack, record it with "No Threat" status
+        // This will be visible only in the Transaction Analysis page
         await storage.createAttack({
-          status: "False Positive",
+          status: "No Threat",
           exchange: "Unknown",
           tokenPair: "ETH/USDC", // Default token pair
           token0Symbol: "ETH",

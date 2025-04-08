@@ -45,6 +45,8 @@ export default function Transactions() {
         return "bg-yellow-200 text-yellow-800";
       case 'False Positive':
         return "bg-green-200 text-green-800";
+      case 'No Threat':
+        return "bg-blue-200 text-blue-800";
       default:
         return "bg-gray-200 text-gray-800";
     }
@@ -89,6 +91,7 @@ export default function Transactions() {
                       <SelectItem value="Confirmed Attack">Confirmed Attacks</SelectItem>
                       <SelectItem value="Potential Attack">Potential Attacks</SelectItem>
                       <SelectItem value="False Positive">False Positives</SelectItem>
+                      <SelectItem value="No Threat">No Threat</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>

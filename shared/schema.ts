@@ -19,7 +19,7 @@ export type User = typeof users.$inferSelect;
 // Define supported exchanges
 export const exchanges = ["Uniswap V3", "SushiSwap", "PancakeSwap", "Curve", "Balancer", "dYdX", "GMX", "TraderJoe", "SpookySwap", "QuickSwap", "VVS Finance", "Raydium"];
 
-export const attackStatuses = ["Confirmed Attack", "Potential Attack", "False Positive"] as const;
+export const attackStatuses = ["Confirmed Attack", "Potential Attack", "False Positive", "No Threat"] as const;
 
 // Define attacks table schema
 export const attacks = pgTable("attacks", {
