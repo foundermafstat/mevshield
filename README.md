@@ -2,7 +2,7 @@
 
 MEV Shield is a sophisticated protection application designed to detect and prevent value extraction attacks, with a special focus on sandwich trades in DeFi (Decentralized Finance) transactions. Built with React, Node.js, and Express, the application helps users identify malicious activities and secure their financial transactions in the blockchain ecosystem.
 
-![MEV Shield Dashboard](https://i.imgur.com/YOUR_SCREENSHOT_ID.png)
+![MEV Shield Dashboard](generated-icon.png)
 
 ## Features
 
