@@ -17,7 +17,7 @@ export default function Sidebar() {
         <div className="flex items-center h-16 px-4 border-b border-gray-700">
           <div className="flex items-center">
             <i className="fas fa-shield-alt text-app-accent text-2xl mr-2"></i>
-            <span className="text-xl font-semibold">DeFi Shield</span>
+            <span className="text-xl font-semibold">MEV Shield</span>
           </div>
         </div>
         <div className="h-0 flex-1 flex flex-col overflow-y-auto">

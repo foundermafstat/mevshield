@@ -1,8 +1,8 @@
-# DeFi Shield
+# MEV Shield
 
-DeFi Shield is a sophisticated protection application designed to detect and prevent value extraction attacks, with a special focus on sandwich trades in DeFi (Decentralized Finance) transactions. Built with React, Node.js, and Express, the application helps users identify malicious activities and secure their financial transactions in the blockchain ecosystem.
+MEV Shield is a sophisticated protection application designed to detect and prevent value extraction attacks, with a special focus on sandwich trades in DeFi (Decentralized Finance) transactions. Built with React, Node.js, and Express, the application helps users identify malicious activities and secure their financial transactions in the blockchain ecosystem.
 
-![DeFi Shield Dashboard](https://i.imgur.com/YOUR_SCREENSHOT_ID.png)
+![MEV Shield Dashboard](https://i.imgur.com/YOUR_SCREENSHOT_ID.png)
 
 ## Features
 
@@ -29,7 +29,7 @@ DeFi Shield is a sophisticated protection application designed to detect and pre
 ## Technical Documentation
 
 ### Architecture
-DeFi Shield follows a client-server architecture:
+MEV Shield follows a client-server architecture:
 - **Frontend**: React application with TanStack Query for data fetching
 - **Backend**: Express.js server with RESTful API endpoints
 - **Storage**: In-memory database (can be extended to PostgreSQL)
@@ -116,7 +116,7 @@ The application uses the following main data entities:
 1. Clone the repository
 ```bash
 git clone https://github.com/your-username/defi-shield.git
-cd defi-shield
+cd mevshield
 ```
 
 2. Install dependencies
